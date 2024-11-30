@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 from random import choice, randint, shuffle
 import pyperclip
+import json
 
 FONT_NAME = "Helvetica"
 FONT_SIZE = 10
@@ -32,17 +33,51 @@ def save():
     website = website_box.get()
     email = email_box.get()
     password = password_box.get()
+    new_data = {
+        website:{
+        "email": email,
+        "password": password
+        }
+    }
 
-    if len(website) == 0 or len(password) == 0 or len(email) == 0:
+    if len(website) == 0 or len(password) == 0:
         messagebox.showinfo(title="Warning", message="Please make sure to fill in all the empty fields!")
     else:
-        is_ok = messagebox.askokcancel(title = website, message=f"Details entered:\n\nWebsite: {website},\nEmail: {email}, \nPassword: {password}\n\n Press 'OK' to save or 'Cancel' to restart! ")
+        try:
+            with open("data.json", "r") as d:
+                 #reading old data
+                 data = json.load(d)
+        except FileNotFoundError:
+            with open("data.json", "w") as d:
+                json.dump(new_data, d, indent = 4)
+        else:
+             #update old data with new data
+             data.update(new_data)
 
-        if is_ok:
-            with open("data.txt", "a") as d:
-                d.write(f"Website: {website},\nEmail: {email}, \nPassword: {password}\n\n")
-                website_box.delete(0,END)
-                password_box.delete(0, END)
+             with open("data.json", "w") as d:
+                 #saving updated data
+                 json.dump(data, d, indent = 4)
+        finally:
+             website_box.delete(0,END)
+             password_box.delete(0, END)
+
+
+# ---------------------------- FIND PASSWORD ------------------------------- #
+def find_password():
+    website= website_box.get()
+    try:
+        with open("data.json") as d:
+            data = json.load(d)
+    except FileNotFoundError:
+        messagebox.showinfo(title="Error", message="No data file found.")
+    else:
+        if website in data:
+            email = data[website]["email"]
+            password = data[website]["password"]
+            messagebox.showinfo(title=website, message=f"Email: {email} \nPassword: {password}")
+        else:
+            messagebox.showinfo(title="Error", message=f"No records found for {website}.")
+
 
 
 
@@ -68,56 +103,47 @@ website_label = Label(text = "Website: ",
 website_label.grid(column = 0,
                    row = 1)
 # creating "Website" box
-website_box = Entry(width= 35)
+website_box = Entry(width= 17)
 
-website_box.grid(column = 1, row = 1, columnspan = 2)
+website_box.grid(column = 1, row = 1, columnspan = 1)
 website_box.focus()
-
 
 
 # creating "Email/Username" label
 email_label = Label(text = "Email/Username: ",
                       font = (FONT_NAME, FONT_SIZE, "normal"))
 email_label.grid(column = 0,
-                   row = 2)
+                   row = 3)
 # creating "Email/Username" box
 email_box = Entry(width= 35)
 email_box.insert(0,"ibryamfibryam@gmail.com")
 
-email_box.grid(column = 1, row = 2, columnspan = 2)
-
-
+email_box.grid(column = 1, row = 3, columnspan = 2)
 
 
 # creating "Password" label
 password_label = Label(text = "Password: ",
                       font = (FONT_NAME, FONT_SIZE, "normal"))
 password_label.grid(column = 0,
-                   row = 3)
+                   row = 4)
 # creating "Password" box
 password_box = Entry(width= 17)
 
-password_box.grid(column = 1, row = 3)
-
-
-
-
-
+password_box.grid(column = 1, row = 4)
 
 #creating "Generate password" button
 
 generate_password = Button(text = "Generate Password", command=generate_password)
-generate_password.grid(column = 2, row = 3)
-
-
-
+generate_password.grid(column = 2, row = 4)
 
 
 #creating "Add" button
 add = Button(text = "Add", width=30, command=save)
-add.grid(column = 1, row = 4, columnspan = 2)
+add.grid(column = 1, row = 5, columnspan = 2)
 
-
+#creating "Search" button
+search= Button(text = "Search", width= 14, command = find_password)
+search.grid(column = 2, row = 1)
 
 
 
