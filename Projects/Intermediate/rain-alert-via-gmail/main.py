@@ -6,7 +6,7 @@ import requests
 MY_EMAIL = "ibryamfaik1991@gmail.com"
 MY_PASSWORD = "wkitldkmudvbydfg"
 
-api_key = "208540584848febfecbf9ffd5c640896"
+api_key = "myapikey"
 city_name = "Kardzhali"
 
 endpoint = "https://api.openweathermap.org/data/2.5/forecast"
