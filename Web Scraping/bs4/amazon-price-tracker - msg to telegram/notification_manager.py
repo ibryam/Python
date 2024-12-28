@@ -1,7 +1,7 @@
 import requests
 
-TELEGRAM_CHAT_ID = "5290548584"
-TELEGRAM_TOKEN = "7782718578:AAHjvQgO3BmHxGUqXo2eOF5FWtBEF1mTIhY"
+TELEGRAM_CHAT_ID = "YOURTELEGRAMCHATID"
+TELEGRAM_TOKEN = "MYTELEGRAMTOKEN"
 
 class NotificationManager:
     #This class is responsible for sending notifications with the deal flight details.
