@@ -8,7 +8,6 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 
-message = "madafaka first free msg, new main2.py amazontracker"
 
 notify = NotificationManager()
 #
