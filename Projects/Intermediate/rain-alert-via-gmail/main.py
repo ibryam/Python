@@ -4,7 +4,7 @@ import time
 import requests
 
 MY_EMAIL = "ibryamfaik1991@gmail.com"
-MY_PASSWORD = "wkitldkmudvbydfg"
+MY_PASSWORD = "sdasdasdasd"
 
 api_key = "myapikey"
 city_name = "Kardzhali"
